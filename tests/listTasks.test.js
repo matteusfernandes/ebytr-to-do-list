@@ -3,29 +3,28 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const { beforeEach, afterEach } = require('mocha');
 const tasksController = require('../src/api/controllers');
 const tasksService = require('../src/api/services');
 
 describe('1 - Ao chamar o controller de listar tarefas:', () => {
-  const response = {};
-  const request = {};
+  describe('Quando a requisão é bem sucedida:', () => {
+    const response = {};
+    const request = {};
 
-    beforeEach(() => {
+    before(() => {
       response.status = sinon.stub()
         .returns(response);
       response.json = sinon.stub()
         .returns();
-      
-      sinon.stub(tasksService, 'list')
-      .resolves(false);
-    });
 
-    afterEach(() => {
-      tasksService.list.restore();
-    });
+        sinon.stub(tasksService, 'list')
+        .resolves({});
+      });
+  
+      after(() => {
+        tasksService.list.restore();
+      });
 
-  describe('Quando a requisão é bem sucedida:', () => {
     it('Retorna status 200.', async () => {
       await tasksController.list(request, response);
 
@@ -40,6 +39,23 @@ describe('1 - Ao chamar o controller de listar tarefas:', () => {
   });
 
   describe('Quando a requisão é mal sucedida:', () => {
+    const response = {};
+    const request = {};
+  
+      before(() => {
+        response.status = sinon.stub()
+          .returns(response);
+        response.send = sinon.stub()
+          .returns();
+        
+        sinon.stub(tasksService, 'list')
+        .resolves(null);
+      });
+  
+      after(() => {
+        tasksService.list.restore();
+      });
+  
     it('Retorna status 400.', async () => {
       await tasksController.list(request, response);
 
