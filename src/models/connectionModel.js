@@ -7,7 +7,7 @@ const OPTIONS = {
 };
 
 const DB_NAME = 'ebytr-tasks';
-const MONGO_DB_URL = `mongodb://${process.env.HOST || 'mongodb'}:27017/${DB_NAME}`;
+const MONGO_DB_URL = process.env.HOST || 'mongodb:27017/ebytr-tasks';
 let db = null;
 
 module.exports = () => (

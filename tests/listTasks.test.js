@@ -3,8 +3,8 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
 
-const tasksController = require('../src/api/controllers');
-const tasksService = require('../src/api/services');
+const tasksController = require('../src/controllers');
+const tasksService = require('../src/services');
 
 describe('1 - Ao chamar o controller de listar tarefas:', () => {
   describe('Quando a requisão é bem sucedida:', () => {
@@ -42,30 +42,30 @@ describe('1 - Ao chamar o controller de listar tarefas:', () => {
     const response = {};
     const request = {};
   
-      before(() => {
-        response.status = sinon.stub()
-          .returns(response);
-        response.send = sinon.stub()
-          .returns();
-        
-        sinon.stub(tasksService, 'list')
-        .resolves(null);
-      });
-  
-      after(() => {
-        tasksService.list.restore();
-      });
-  
-    it('Retorna status 500.', async () => {
+    before(() => {
+      response.status = sinon.stub()
+        .returns(response);
+      response.send = sinon.stub()
+        .returns();
+      
+      sinon.stub(tasksService, 'list')
+      .resolves(null);
+    });
+
+    after(() => {
+      tasksService.list.restore();
+    });
+
+    it('Retorna status 404.', async () => {
       await tasksController.list(request, response);
 
-      expect(response.status.calledWith(500)).to.be.equal(true);
+      expect(response.status.calledWith(404)).to.be.equal(true);
     });
   
-    it('Retorna mensagem de erro.', async () => {
+    it('Retorna mensagem de erro "No tasks found."', async () => {
       await tasksController.list(request, response);
 
-      expect(response.json.calledWith({ message: 'Internal Server Error' })).to.be.equal(true);
+      expect(response.json.calledWith('No tasks found.')).to.be.equal(true);
     });
   });
 });
