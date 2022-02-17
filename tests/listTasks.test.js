@@ -35,7 +35,7 @@ describe('1 - Ao chamar o controller de listar tarefas:', () => {
     it('Retorna um objeto com todas as tarefas.', async () => {
       await tasksController.list(request, response);
 
-      expect(response.json.match.object); 
+      expect(response.json.calledWith(sinon.match.object)).to.be.equal(true); 
     });
   });
 
