@@ -56,16 +56,16 @@ describe('1 - Ao chamar o controller de listar tarefas:', () => {
         tasksService.list.restore();
       });
   
-    it('Retorna status 400.', async () => {
+    it('Retorna status 500.', async () => {
       await tasksController.list(request, response);
 
-      expect(response.status.calledWith(400)).to.be.equal(true);
+      expect(response.status.calledWith(500)).to.be.equal(true);
     });
   
     it('Retorna mensagem de erro.', async () => {
       await tasksController.list(request, response);
 
-      expect(response.json.calledWith({ message: 'Server Error.' })).to.be.equal(true);
+      expect(response.json.calledWith({ message: 'Internal Server Error' })).to.be.equal(true);
     });
   });
 });
